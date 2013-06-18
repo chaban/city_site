@@ -1,0 +1,55 @@
+<?php use Phalcon\Tag as Tag, \Iwi\Iwi as Iwi; ?>
+<div class="content center">
+<div id="show-top">
+<h2><?php echo $model->title ?></h2>
+
+<div class="clr-both clearfix"></div>
+<hr />
+<div id="show-bottom">
+<?php if ($user): ?>
+<p class="lead">Опубликованно <?php echo $user->name ?> <div class="date">
+<i><?php echo date('d.m.Y, H:i', strtotime($model->create_time)) ?></i>
+</div><!--date--></p>
+<?php endif ?>
+</div><!--show-bottom-->
+<div class="">
+<p>Содержание:</p>
+<p><?php echo $model->body ?></p>
+</div>
+<div class="clr-both clearfix"></div>
+<hr />
+</div><!--show-top-->
+<?php if(count($images)): ?>
+<h5>Изображения к новости:</h5>
+    <div id="myCarousel" class="carousel slide center">
+    <ol class="carousel-indicators">
+    </ol>
+    <!-- Carousel items -->
+    
+    <div class="carousel-inner">
+<?php foreach ($images as $idx => $image): ?>
+    <?php $picture = new Iwi($images[$idx]['path']);
+    $picture->resize(560, 315, Iwi::NONE); ?>
+<div class="item">
+<img class="" src="/<?php echo $picture->cache(); ?>" />
+</div>
+<?php endforeach ?>
+    </div>
+    <!-- Carousel nav -->
+    <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div>
+<?php endif ?>
+
+<div class="clr-both clearfix"></div>
+<hr />
+
+</div>
+<?php $this->partial('partials/comments'); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+      $('.carousel').carousel({
+    interval: 200000
+    });
+});
+</script>

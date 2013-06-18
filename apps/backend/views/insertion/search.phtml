@@ -1,0 +1,67 @@
+<?php $this->getContent(); ?>
+
+<table width="100%">
+    <tr>
+        <td align="left">
+            <?php echo \Phalcon\Tag::linkTo(array("insertion/index", "Go Back")); ?>
+        </td>
+        <td align="right">
+            <?php echo \Phalcon\Tag::linkTo(array("insertion/new", "Create insertion")); ?>
+        </td>
+    <tr>
+</table>
+
+<table class="browse" align="center">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Category</th>
+            <th>Body</th>
+            <th>Status</th>
+            <th>Price Of Range</th>
+            <th>Price</th>
+            <th>Buy Of Sell</th>
+            <th>Create Of User</th>
+            <th>Update Of User</th>
+            <th>Create Of Time</th>
+            <th>Update Of Time</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php
+        if(isset($page->items)){
+            foreach($page->items as $insertion){ ?>
+        <tr>
+            <td><?php echo $insertion->id ?></td>
+            <td><?php echo $insertion->category ?></td>
+            <td><?php echo $insertion->body ?></td>
+            <td><?php echo $insertion->status ?></td>
+            <td><?php echo $insertion->price_range ?></td>
+            <td><?php echo $insertion->price ?></td>
+            <td><?php echo $insertion->buy_sell ?></td>
+            <td><?php echo $insertion->create_user_id ?></td>
+            <td><?php echo $insertion->update_user_id ?></td>
+            <td><?php echo $insertion->create_time ?></td>
+            <td><?php echo $insertion->update_time ?></td>
+            <td><?php echo \Phalcon\Tag::linkTo(array("insertion/edit/".$insertion->id, "Edit")); ?></td>
+            <td><?php echo \Phalcon\Tag::linkTo(array("insertion/delete/".$insertion->id, "Delete")); ?></td>
+        </tr>
+    <?php }
+        } ?>
+    </tbody>
+    <tbody>
+        <tr>
+            <td colspan="11" align="right">
+                <table align="center">
+                    <tr>
+                        <td><?php echo \Phalcon\Tag::linkTo("insertion/search", "First") ?></td>
+                        <td><?php echo \Phalcon\Tag::linkTo("insertion/search?page=".$page->before, "Previous") ?></td>
+                        <td><?php echo \Phalcon\Tag::linkTo("insertion/search?page=".$page->next, "Next") ?></td>
+                        <td><?php echo \Phalcon\Tag::linkTo("insertion/search?page=".$page->last, "Last") ?></td>
+                        <td><?php echo $page->current, "/", $page->total_pages ?></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    <tbody>
+</table>

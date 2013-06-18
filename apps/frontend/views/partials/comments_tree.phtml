@@ -1,0 +1,21 @@
+<?php if($comments): ?>
+<p class="lead">Комментарии:</p>
+    <ul class="comments-list unstyled">
+        <?php foreach($comments as $comment):?>
+            <li id="comment-<?php echo $comment->id; ?>">
+                <div class="comment-header">
+                    <?php echo $comment->name;?>
+                    <?php echo $comment->created;?>
+                </div>
+            
+                <div>
+                    <?php echo $comment->text;?>
+                </div>
+                <?php /*if(count($comment->childs) > 0) $this->partial('comments_tree', array('comments' => $comment->childs));
+                How  implement recursive call of view i dont now*/?>
+            </li>
+        <?php endforeach;?>
+    </ul>
+<?php else:?>
+    <p><?php echo '<p class="lead">Комментариев пока нет</p>';?></p>
+<?php endif; ?>

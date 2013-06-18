@@ -1,0 +1,122 @@
+<?php use Phalcon\Tag as Tag ?>
+
+<ul class="pager">
+    <li class="previous pull-left">
+        <?php echo Tag::linkTo("backend/users/index", "&larr; Назад") ?>
+    </li>
+    <li class="pull-right">
+        <?php echo Tag::linkTo(array(
+  "backend/users/edit/" . $model->id,
+  "Редактировать",
+  "class" => "btn btn-primary")) ?>
+    </li>
+</ul>
+<div class="center">
+<?php echo $this->flashSession->output() ?>
+<div class="center scaffold">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#A" data-toggle="tab">Основные</a></li>
+        <li><a href="#B" data-toggle="tab">Успешные логины</a></li>
+        <li><a href="#C" data-toggle="tab">Смена паролей</a></li>
+        <li><a href="#D" data-toggle="tab">Забывал пароли</a></li>
+    </ul>
+</div>
+<div class="tabbable">
+    <div class="tab-content">
+        <div class="tab-pane active" id="A">
+<table class="table table-hover table-bordered">
+  <caption><h4><i>Просмотр данных о пользователе <?php echo $model->name ?></i></h4></caption>
+  <tbody>
+    <tr>
+      <td>Id</td>
+      <td><?php echo $model->id; ?></td>
+    </tr>
+    <tr>
+      <td>Имя</td>
+      <td><?php echo $model->name; ?></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+ <div class="tab-pane" id="B">
+            <p>
+                <table class="table table-bordered table-striped" align="center">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>IP Адресс</th>
+                            <th>Браузер</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($model->successLogins as $login): ?>
+                    <?php if($login): ?>
+                        <tr>
+                            <td><?php echo $login->id ?></td>
+                            <td><?php echo $login->ipAddress ?></td>
+                            <td><?php echo $login->userAgent ?></td>
+                        </tr>
+                    <?php else: ?>
+                        <tr><td colspan="3" align="center">У пользователя нет успешных логинов</td></tr>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                    </tbody>
+                </table>
+            </p>
+        </div>
+ <div class="tab-pane" id="C">
+            <p>
+                <table class="table table-bordered table-striped" align="center">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>IP Аддресс</th>
+                            <th>Браузер</th>
+                            <th>Дата</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($model->passwordChanges as $change): ?>
+                    <?php if($change): ?>
+                        <tr>
+                            <td><?php echo $change->id ?></td>
+                            <td><?php echo $change->ipAddress ?></td>
+                            <td><?php echo $change->userAgent ?></td>
+                            <td><?php echo date("Y-m-d H:i:s", $change->createdAt) ?></td>
+                        </tr>
+                    <?php else: ?>
+                        <tr><td colspan="3" align="center">User has not changed his/her password</td></tr>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                    </tbody>
+                </table>
+            </p>
+        </div>
+  <div class="tab-pane" id="D">
+            <p>
+                <table class="table table-bordered table-striped" align="center">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Дата</th>
+                            <th>Сменил?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($model->resetPasswords as $reset): ?>
+                    <?php if($reset): ?>
+                        <tr>
+                            <th><?php echo $reset->id ?></th>
+                            <th><?php echo date("Y-m-d H:i:s", $reset->createdAt) ?>
+                            <th><?php echo $reset->reset == 'Y' ? 'Да' : 'Нет' ?>
+                        </tr>
+                    <?php else: ?>
+                        <tr><td colspan="3" align="center">User has not requested reset his/her password</td></tr>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                    </tbody>
+                </table>
+            </p>
+        </div>
+</div></div>
+</div>

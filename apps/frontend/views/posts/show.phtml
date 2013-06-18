@@ -1,0 +1,39 @@
+<?php use Phalcon\Tag as Tag; ?>
+<div class="content center">
+<div id="show-top">
+<h2><?php echo $model->title ?></h2>
+
+<div class="clr-both clearfix"></div>
+<div class="nav">
+		<b>Тэги: </b>
+		<?php echo implode(', ', $model->getTagLinks()); ?>
+		<br/>
+</div>
+<hr />
+<div id="show-bottom">
+<?php if ($user): ?>
+<p class="lead">Опубликованно <?php echo $user->name ?> <div class="date">
+<i><?php echo date('d.m.Y, H:i', strtotime($model->create_time)) ?></i>
+</div><!--date--></p>
+<?php endif ?>
+</div><!--show-bottom-->
+<div class="">
+<p>Содержание:</p>
+<p><?php echo $model->body ?></p>
+</div>
+<div class="clr-both clearfix"></div>
+<hr />
+</div><!--show-top-->
+
+<div class="clr-both clearfix"></div>
+<hr />
+
+</div>
+<?php $this->partial('partials/comments'); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+      $('.carousel').carousel({
+    interval: 200000
+    });
+});
+</script>

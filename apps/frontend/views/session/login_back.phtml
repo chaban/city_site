@@ -1,0 +1,35 @@
+<?php use Phalcon\Tag as Tag ?>
+
+<?php echo $this->getContent() ?>
+
+<div align="center" class="well">
+
+  <form class="form-search" method="post">
+
+	<div align="left">
+		<h2>Вход в магазин</h2>
+	</div>
+
+    <?php echo $form->render("email") ?>
+		
+    <?php echo $form->render("password") ?>
+		
+    <?php echo $form->render("go") ?>
+
+		<div align="center" class="remember">
+      <?php echo $form->render("remember") ?>
+      <label>Запомнить меня</label>
+		</div>
+
+    <?php echo $form->render("csrf",array("value"=>$this->security->getToken())) ?>
+     
+
+		<hr />
+
+		<div class="forgot">
+      <?php echo Tag::linkTo(array("session/forgotPassword", "Я забыл(а) пароль")); ?>
+		</div>
+
+	</form>
+
+</div>

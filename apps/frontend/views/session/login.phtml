@@ -1,0 +1,80 @@
+<?php
+use Phalcon\Tag as Tag
+?>
+
+<?php
+echo $this->getContent()
+?>
+
+<div class="login-or-signup">
+    <div class="row">
+
+        <div class="span6">
+            <div class="page-header">
+                <h2>Log In</h2>
+            </div>
+            <?php
+echo Tag::form(array('session/login', 'class' => 'form-inline'))
+?>
+                <fieldset>
+                    <div class="control-group">
+                    <?php
+echo $form->render("email")
+?>
+                    </div>
+                    <div class="control-group">
+                    <?php
+echo $form->render("password")
+?>
+                    </div>
+    
+                    <div align="center" class="remember">
+      <?php
+echo $form->render("remember")
+?>
+      <label>Запомнить меня</label>
+		</div>
+                </fieldset>
+                <?php
+echo $form->render("csrf", array("value" => $this->security->getToken()))
+?>
+                <div class="form-actions">
+                        <?php
+echo $form->render("Войти")
+?>
+                    </div>
+<div class="forgot">
+      <?php
+echo Tag::linkTo(array("session/forgotPassword", "Я забыл(а) пароль"));
+?>
+		</div>
+            <?php
+echo Tag::endForm();
+?>
+        </div>
+
+        <div class="span6">
+            <div class="page-header">
+                <h2>Еще не зарегистрированы?</h2>
+            </div>
+
+            <p>Зарегистрировавшись Вы сможете:</p>
+            <ul>
+                <li>Подавать объявления</li>
+                <li>Публиковать статьи, постить в свой блог</li>
+                <li>Комментировать статьи</li>
+            </ul>
+
+            <div class="clearfix center">
+                <?php
+echo Tag::linkTo(array(
+	'session/signup',
+	'Регистрация',
+	'class' => 'btn btn-primary btn-large btn-success',
+	))
+?>
+            </div>
+        </div>
+
+    </div>
+</div>

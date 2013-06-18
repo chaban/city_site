@@ -1,0 +1,35 @@
+<?php use Phalcon\Tag as Tag ?>
+<?php echo Tag::form(array(
+  "backend/articleCategories/create",
+  "id" => "createArticleCategoriesForm",
+  "autocomplete" => "off",
+  //"enctype" => "multipart/form-data",
+  "onbeforesubmit" => "return false")) ?>
+
+
+<div class="center scaffold">
+<?php echo $this->flashSession->output() ?>
+    <h2>Добавить категорию статей.</h2>
+  
+  <div class="clearfix">
+        <label for="name"><strong>Название</strong></label>
+        <?php echo Tag::textField(array(
+  "name",
+  "class" => "span6 input-xlarge",
+  "size" => 44,
+  "maxlength" => 70,
+  "name" => "name",
+  )) ?>
+    </div>
+   
+   <ul class="pager">
+    <li class="pull-right">
+        <?php echo Tag::submitButton(array(
+  "Сохранить",
+  "class" => "btn btn-success",
+  )) ?>
+    </li>
+</ul> 
+    
+</div>
+</form>

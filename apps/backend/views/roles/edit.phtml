@@ -1,0 +1,53 @@
+<?php use Phalcon\Tag as Tag ?>
+
+<?php echo Tag::form(array(
+  "backend/roles/edit",
+  "id" => "editRolesForm",
+  "autocomplete" => "off",
+  //"enctype" => "multipart/form-data",
+  "onbeforesubmit" => "return false")) ?>
+
+
+<div class="center scaffold">
+<?php echo $this->flashSession->output() ?>
+    <h2>Редактирование данных о роли <?php echo $model->name ?>.</h2>
+    
+  <input type="hidden" name="id" id="id" value="<?php echo $model->id ?>" />
+  
+  <div class="clearfix">
+        <label for="name"><strong>Название:</strong></label>
+        <?php echo Tag::textField(array(
+  "name",
+  "class" => "span6 input-xlarge",
+  "size" => 44,
+  "maxlength" => 70,
+  "name" => "name",
+  )) ?>
+    </div>
+    
+    
+    <div class="clearfix">
+        <label for="active">Активна?</label>
+    <?php
+echo Tag::selectStatic(array(
+	"active",
+	"name" => "active",
+	"class" => "input-small left"), array(
+	"Y" => "Да",
+	"N" => "Нет",
+	'' => ''));
+?>
+    </div>
+   
+   <ul class="pager">
+    <li class="pull-right">
+        <?php echo Tag::submitButton(array(
+  "Сохранить",
+  "class" => "btn btn-success",
+  //"onclick" => "return UpdateProduct.validate();",
+  )) ?>
+    </li>
+</ul> 
+    
+</div>
+</form>

@@ -1,0 +1,102 @@
+<?php use Phalcon\Tag as Tag ?>
+<?php echo Tag::form(array(
+  "backend/interviews/create",
+  "id" => "createInterviewsForm",
+  "autocomplete" => "off",
+  "enctype" => "multipart/form-data",
+  "onbeforesubmit" => "return false")) ?>
+
+
+<div class="center scaffold">
+<?php echo $this->flashSession->output() ?>
+    <h2>Добавить интервью.</h2>
+  
+  <div class="clearfix">
+        <label for="status">Статус интервью</label>
+       <?php echo Tag::selectStatic(array("status", "name" => "status", "class" => "input-medium left"), array(
+  "0" => "Опубликованно",
+  "1" => "В черновик",
+  "2" => "В архив")); ?>
+    </div>
+    
+  
+  <div class="clearfix">
+        <label for="title"><strong>Заглавие</strong></label>
+        <?php echo Tag::textField(array(
+  "title",
+  "class" => "span6 input-xlarge",
+  "size" => 44,
+  "maxlength" => 70,
+  "name" => "title",
+  )) ?>
+    </div>
+    
+    <div class="clearfix">
+        <label for="respondent"><strong>Интервьируемый</strong></label>
+        <?php echo Tag::textField(array(
+  "respondent",
+  "class" => "span6 input-xlarge",
+  "size" => 44,
+  "maxlength" => 70,
+  "name" => "respondent",
+  )) ?>
+    </div>
+    
+    <div class="clearfix">
+        <label for="phrase"><strong>Забористая фраза из интервью</strong></label>
+        <?php echo Tag::textField(array(
+  "phrase",
+  "class" => "span6 input-xlarge",
+  "size" => 44,
+  "maxlength" => 70,
+  "name" => "phrase",
+  )) ?>
+    </div>
+    
+     <div class="clearfix">
+        <label for="body">Содержание</label>
+        <?php
+        $elrte = new  \Elrte\ElrteArea();
+        $elrte->run();
+        ?>
+    </div>
+    
+   <div class="clearfix">
+        <label for="">(необязательно)Выберите изображения(до 5 изображений)</label>
+        <input type="file" class="multi-ru" name="Interviews[]" accept="gif|jpg|jpeg|png" maxlength="5"/>
+        <p>Размер файла не должен превышать 2 мегабайт.</p>
+    </div>
+   
+   <ul class="pager">
+    <li class="pull-right">
+        <?php echo Tag::submitButton(array(
+  "Сохранить",
+  "class" => "btn btn-success",
+  )) ?>
+    </li>
+</ul> 
+    
+</div>
+</form>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+  // custom alert for multi file upload
+$('.multi-ru').MultiFile({
+accept:'gif|jpg|jpeg|png', max:5, STRING: {
+remove:'Убрать',
+selected:'Выбрано: $file',
+denied:'Недопустимый формат файла $ext!',
+duplicate:'Такой файл уже выбран:\n$file!'
+}
+});
+// check file size(works only on modern browsers)
+/*
+$('.multi-ru').each(function() {
+  $(this).bind('change', function() {
+  //this.files[0].size gets the size of your file.
+  alert(this.files[0].size);
+});*/
+});
+</script>

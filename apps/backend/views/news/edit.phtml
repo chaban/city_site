@@ -1,0 +1,100 @@
+<?php use Phalcon\Tag as Tag ?>
+
+<?php echo Tag::form(array(
+  "backend/news/edit",
+  "id" => "editNewsForm",
+  "autocomplete" => "off",
+  "enctype" => "multipart/form-data",
+  "onbeforesubmit" => "return false")) ?>
+
+
+<div class="center scaffold">
+<?php echo $this->flashSession->output() ?>
+    <h2>Редактировать  новость № <?php echo $id ?>.</h2>
+  <input type="hidden" name="id" id="id" value="<?php echo $id ?>" />
+  <div class="clearfix">
+        <label for="status">Показывать или скрыть новость</label>
+       <?php echo Tag::selectStatic(array("status", "name" => "status"), array("0" => "Показывать",
+  "1" => "Скрыть")); ?>
+    </div>
+  
+  <div class="clearfix">
+        <label for="title"><strong>Заглавие</strong></label>
+        <?php echo Tag::textField(array(
+  "title",
+  "class" => "span6 input-xlarge",
+  "size" => 44,
+  "maxlength" => 70,
+  "name" => "title",
+  )) ?>
+    </div>
+    
+    <div class="clearfix">
+        <label for="body">Содержание</label>
+        <?php
+        $elrte = new  \Elrte\ElrteArea();
+        $elrte->run();
+        ?>
+    </div>
+    
+    <?php if ($images): ?>
+        <div class="clearfix">
+        <p>Изображения <?php echo count($images); ?></p>
+        <ul>
+        <?php foreach ($images as $image): ?>
+          <li style="position: relative; list-style-type: none; float: none; display: inline-block;; margin-right: 10px; width: 120px; height: 120px;">
+        <?php $picture = new \Iwi\Iwi(str_replace("\\", "/", $image['path']));
+    $picture->resize(120, 120, \Iwi\Iwi::NONE);
+    echo Tag::image(array(
+      $picture->cache(),
+      'width' => 120,
+      'height' => 120)); ?>    
+      <a class="delete-image" href="/backend/news/deleteimage/<?php echo $id; ?>/<?php echo $image['name']; ?>" style="position: absolute; bottom: 5px; right: 5px;" title="удалить это изображение">
+        <img src="/img/delete.png" alt="Delete" />
+    </a>
+          </li>
+          <?php endforeach; ?>
+        </ul>
+        </div>
+<?php endif; ?>
+    
+    
+   <div class="clearfix">
+        <label for="">(необязательно)Выберите изображения(до 5 изображений)</label>
+        <input type="file" class="multi-ru" name="News[]" accept="gif|jpg|jpeg|png" maxlength="5"/>
+        <p>Размер файла не должен превышать 2 мегабайт.</p>
+    </div>
+   
+   <ul class="pager">
+    <li class="pull-right">
+        <?php echo Tag::submitButton(array(
+  "Сохранить",
+  "class" => "btn btn-success",
+  //"onclick" => "return UpdateProduct.validate();",
+  )) ?>
+    </li>
+</ul> 
+    
+</div>
+</form>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  // custom alert for multi file upload
+$('.multi-ru').MultiFile({
+accept:'gif|jpg|jpeg|png', max:5, STRING: {
+remove:'Убрать',
+selected:'Выбрано: $file',
+denied:'Недопустимый формат файла $ext!',
+duplicate:'Такой файл уже выбран:\n$file!'
+}
+});
+// check file size(works only on modern browsers)
+/*
+$('.multi-ru').each(function() {
+  $(this).bind('change', function() {
+  //this.files[0].size gets the size of your file.
+  alert(this.files[0].size);
+});*/
+});
+</script>

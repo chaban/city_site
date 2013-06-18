@@ -1,0 +1,114 @@
+<?php
+use Phalcon\Tag as Tag
+?>
+<?php
+echo Tag::form(array(
+	"backend/posts/edit",
+	"id" => "editPostsForm",
+	"autocomplete" => "off",
+	//"enctype" => "multipart/form-data",
+	"onbeforesubmit" => "return false"))
+?>
+
+
+<div class="center scaffold">
+<?php
+echo $this->flashSession->output()
+?>
+    <h2>Редактировать блог пост № <?php
+echo $id
+?>.</h2>
+  <input type="hidden" name="id" id="id" value="<?php
+echo $id
+?>" />
+  <div class="clearfix">
+        <label for="status">Статус</label>
+       <?php
+echo Tag::selectStatic(array(
+	"status",
+	"name" => "status",
+	"class" => "input-medium left"), array(
+	"0" => "Опубликованно",
+	"1" => "В черновик",
+	"2" => "В архив"));
+?>
+    </div>
+  
+  <div class="clearfix">
+        <label for="title"><strong>Заглавие</strong></label>
+        <?php
+echo Tag::textField(array(
+	"title",
+	"class" => "span6 input-xlarge",
+	"size" => 44,
+	"maxlength" => 70,
+	"name" => "title",
+	))
+?>
+    </div>
+    
+     <div class="clearfix">
+        <label for="body">Содержание</label>
+        <?php
+$elrte = new \Elrte\ElrteArea();
+$elrte->run();
+?>
+    </div>
+    <hr />
+    <div class="clearfix">
+        <label for="tags"><strong>тэги через запятую</strong></label>
+       <?php
+echo Tag::textField(array(
+	"tags",
+	"name" => "tags",
+	))
+?>
+    </div>
+    <br /><hr />
+   
+   <ul class="pager">
+    <li class="pull-right">
+        <?php
+echo Tag::submitButton(array(
+	"Сохранить",
+	"class" => "btn btn-success",
+	))
+?>
+    </li>
+</ul> 
+    
+</div>
+</form>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#tags').select2({
+    width: "80%",
+    placeholder: "Тэги через запятую",
+    //tags:["red", "green", "blue"],
+    tags: [<?php 
+    foreach($tags as $tag)
+    {
+      echo json_encode($tag);
+      echo ',';
+    }
+     ?>],
+    tokenSeparators: [","],
+    minimumInputLength: 2
+    /*
+    ajax: {
+      url: "/posts/gettags",
+      dataType: 'json',
+      data: function (term, page) {
+        return {
+          q: term
+        };
+      },
+      results: function (data, page) {
+        return { results: data };
+      }
+      }*/
+    });
+});
+</script>

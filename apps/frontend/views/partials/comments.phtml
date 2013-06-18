@@ -1,0 +1,76 @@
+<?php
+use Phalcon\Tag as Tag;
+/**
+ * @var $this Controller
+ * @var $form CActiveForm
+ */
+
+// Load module
+//$module = Yii::app()->getModule('comments');
+// Validate and save comment on post request
+//$comment = $module->processRequest($model);
+// Load model comments
+$comments = \Models\Comments::getCommentsTree($model);
+?>
+<!-- Display comments -->
+<?php $this->partial('partials/comments_tree'); ?>
+
+
+<?php echo Tag::form(array(
+  "comments/create",
+  "id" => "createCommentForm",
+  "class" => "form-horizontal",
+  "autocomplete" => "off",
+  //"enctype" => "multipart/form-data",
+  "onbeforesubmit" => "return false")) ?>
+
+
+<div class="center scaffold control-group">
+<?php echo $this->flashSession->output() ?>
+    <h2>Добавить комментарий.</h2>
+     <input type="hidden" name="Comment[model_id]" id="model_id" value="<?php echo $model->id ?>" />
+     <input type="hidden" name="Comment[model_name]" id="model_name" value="<?php echo $model->getClassName() ?>" />
+  <div class="control-group">
+        <label class="control-label" for="name"><strong>Имя</strong></label>
+        <div class="clearfix controls">
+        <?php echo Tag::textField(array(
+  "name",
+  "class" => "span6 input-xlarge",
+  "size" => 44,
+  "maxlength" => 70,
+  "name" => "Comment[name]",
+  )) ?>
+    </div></div>
+    
+    <div class="control-group">
+        <label class="control-label" for="email"><strong>Почта</strong></label>
+        <div class="clearfix controls">
+        <?php echo Tag::textField(array(
+  "email",
+  "class" => "span6 input-xlarge",
+  "size" => 44,
+  "maxlength" => 70,
+  "name" => "Comment[email]",
+  )) ?>
+    </div></div>
+    
+    <div class="control-group">
+        <label class="control-label" for="text">Содержание комментария</label>
+        <div class="clearfix controls">
+        <?php echo Tag::textArea(array(
+  "text",
+  "name" => "Comment[text]",
+  )) ?>
+    </div></div>
+   
+   <ul class="pager">
+    <li class="pull-right">
+        <?php echo Tag::submitButton(array(
+  "Сохранить",
+  "class" => "btn btn-success",
+  )) ?>
+    </li>
+</ul> 
+    
+</div>
+</form>

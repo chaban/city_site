@@ -1,0 +1,37 @@
+<?php use Phalcon\Tag as Tag, \Iwi\Iwi as Iwi; ?>
+<?php echo $this->getContent() ?>
+<?php echo $this->flashSession->output() ?>
+<?php if($page): ?>
+<?php foreach ($page->items as $model): ?>
+<div class="last">
+<div class="search">
+<div class="search-img left">
+<?php if (count($model->getImages())): ?>
+<a href="/news/show/<?php echo $model->id ?>/<?php echo $model->slug ?>" target="_blank">
+<?php $images = array();
+    $images = $model->getImages();
+    $picture = new Iwi($images['0']['path']);
+    $picture->resize(128, 128, Iwi::NONE);
+    echo Tag::image($picture->cache()); ?>
+</a>
+<?php else: ?>
+<a href="/news/show/<?php echo $model->id ?>/<?php echo $model->slug ?>" target="_blank">
+<img src="/img/no-photo-64.png" alt="/img/no-photo-300.png" />
+</a>
+<?php endif ?>
+</div><!--search-img-->
+<div class="search-txt">
+<span class="search-txt-h">
+<a href="/news/show/<?php echo $model->id ?>/<?php echo $model->slug ?>" target="_blank"><?php echo
+mb_substr(strip_tags($model->title), 0, 230, "UTF-8") ?>
+</a></span><br />
+<span class="search-txt-desk"><?php echo mb_substr(strip_tags($model->body), 0, 430, "UTF-8") ?>...</span>
+</div><!--search-txt-->
+<div class="clr-both"></div>
+</div><!--search-->
+</div><!--last-->
+<hr class="" />
+<?php endforeach ?>
+<?php else: ?>
+<?php echo '<p>Ничего не найдено.</p>'; ?>
+<?php endif; ?>

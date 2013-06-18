@@ -1,0 +1,29 @@
+<?php  use Phalcon\Tag as Tag ?>
+
+<ul class="pager">
+    <li class="previous pull-left">
+        <?php echo Tag::linkTo("backend/interviews/index", "&larr; Назад") ?>
+    </li>
+    <li class="pull-right">
+        <?php echo Tag::linkTo(array(
+  "backend/interviews/edit/" . $model->id,
+  "Редактировать",
+  "class" => "btn btn-primary")) ?>
+    </li>
+</ul>
+<div class="center">
+<?php echo $this->flashSession->output() ?>
+<table class="table table-hover table-bordered">
+  <caption><h4><i>Просмотр интервью с <?php echo $model->respondent ?></i></h4></caption>
+  <tbody>
+    <tr>
+      <td>Id</td>
+      <td><?php echo $model->id; ?></td>
+    </tr>
+    <tr>
+      <td>Название</td>
+      <td><?php echo $model->title; ?></td>
+    </tr>
+  </tbody>
+</table>
+</div> 

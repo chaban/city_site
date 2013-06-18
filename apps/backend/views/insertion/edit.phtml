@@ -1,0 +1,104 @@
+<?php echo $this->getContent(); ?>
+
+<?php echo \Phalcon\Tag::form("insertion/save") ?>
+
+<table width="100%">
+    <tr>
+        <td align="left"><?php echo \Phalcon\Tag::linkTo(array("insertion", "Back")) ?></td>
+        <td align="right"><?php echo \Phalcon\Tag::submitButton(array("Save")) ?></td>
+    <tr>
+</table>
+
+<div align="center">
+    <h1>Edit insertion</h1>
+</div>
+
+    <table align="center">
+        <tr>
+            <td align="right">
+            </td>
+            <td align="left">
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label for="category">Category</label>
+            </td>
+            <td align="left">
+            <?php echo \Phalcon\Tag::textField(array("category", "type" => "numeric")) ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label for="body">Body</label>
+            </td>
+            <td align="left">
+                <?php echo \Phalcon\Tag::textArea(array("body", "cols" => "40", "rows" => "5")) ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label for="status">Status</label>
+            </td>
+            <td align="left">
+            <?php echo \Phalcon\Tag::textField(array("status", "type" => "numeric")) ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label for="price_range">Price Of Range</label>
+            </td>
+            <td align="left">
+            <?php echo \Phalcon\Tag::textField(array("price_range", "type" => "numeric")) ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label for="price">Price</label>
+            </td>
+            <td align="left">
+            <?php echo \Phalcon\Tag::textField(array("price", "size" => 30)) ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label for="buy_sell">Buy Of Sell</label>
+            </td>
+            <td align="left">
+            <?php echo \Phalcon\Tag::textField(array("buy_sell", "type" => "numeric")) ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label for="create_user_id">Create Of User</label>
+            </td>
+            <td align="left">
+            <?php echo \Phalcon\Tag::textField(array("create_user_id", "type" => "numeric")) ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label for="update_user_id">Update Of User</label>
+            </td>
+            <td align="left">
+            <?php echo \Phalcon\Tag::textField(array("update_user_id", "type" => "numeric")) ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label for="create_time">Create Of Time</label>
+            </td>
+            <td align="left">
+                <?php echo \Phalcon\Tag::textField(array("create_time", "type" => "date")) ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label for="update_time">Update Of Time</label>
+            </td>
+            <td align="left">
+                <?php echo \Phalcon\Tag::textField(array("update_time", "type" => "date")) ?>
+            </td>
+        </tr>
+    </table>
+    <?php echo \Phalcon\Tag::endForm() ?>

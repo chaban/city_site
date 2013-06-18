@@ -1,0 +1,92 @@
+<?php use Phalcon\Tag as Tag ?>
+<?php echo $this->getContent() ?>
+<ul class="pager">
+    <li class="pull-right">
+        <?php echo Tag::linkTo(array(
+  "backend/roles/create",
+  "Добавить роль",
+  "class" => "btn btn-primary")) ?>
+    </li>
+</ul>
+<?php echo $this->flashSession->output() ?>
+
+<table class="table table-bordered table-striped" align="center">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Роль</th>
+            <th>Активен?</th>
+        </tr>
+    </thead>
+    <tbody>
+    
+    <?php if (isset($page->items))
+{
+  foreach ($page->items as $model)
+  { ?>
+        <tr>
+            <td><?php echo $model->id ?></td>
+            <td><?php echo $model->name ?></td>
+            <td><?php echo $model->active == 'Y' ? 'Да' : 'Нет' ?></td>
+            <td width="5%"><?php echo Tag::linkTo(array(
+      "backend/roles/edit/" . $model->id,
+      '<i class="icon-pencil"></i>',
+      "class" => "btn",
+      "title"=>"Исправить")) ?></td>
+            <td width="5%">
+            <?php echo Tag::linkTo(array(
+      "backend/roles/delete/" . $model->id,
+      '<i class="icon-remove"></i>',
+      "class" => "btn",
+      "id"=>"remove-button",
+      "title"=>"Удалить",
+      "data-toggle" => "modal",
+      //"data-target" => "#myModal"
+      )) ?>
+            </td>
+        </tr>
+    <?php }
+} ?>
+    </tbody>
+    <tbody>
+        <tr>
+            <td colspan="7" align="right">
+                <div class="btn-roles">
+                    <?php echo Tag::linkTo(array(
+  "backend/roles/index",
+  '<i class="icon-fast-backward"></i> Первая',
+  "class" => "btn")) ?>
+                    <?php echo Tag::linkTo(array(
+  "backend/roles/index?page=" . $page->before,
+  '<i class="icon-step-backward"></i> Предыдущая',
+  "class" => "btn ")) ?>
+                    <?php echo Tag::linkTo(array(
+  "backend/roles/index?page=" . $page->next,
+  '<i class="icon-step-forward"></i> Следующая',
+  "class" => "btn")) ?>
+                    <?php echo Tag::linkTo(array(
+  "backend/roles/index?page=" . $page->last,
+  '<i class="icon-fast-forward"></i> Последняя',
+  "class" => "btn")) ?>
+                    <span class="help-inline"><?php echo $page->current, "/", $page->total_pages ?></span>
+                </div>
+            </td>
+        </tr>
+    <tbody>
+</table>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">Удаление объявления</h3>
+</div>
+<div class="modal-body">
+<p>Объявление будет полностью удалено и в дальнейшем не доступно.</p>
+</div>
+<div class="modal-footer">
+<button class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>
+<?php echo Tag::linkTo(array(
+  "#",
+  "Удалить",
+  "class" => "btn btn-primary")) ?>
+</div>
+</div>

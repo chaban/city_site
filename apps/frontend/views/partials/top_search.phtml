@@ -1,0 +1,137 @@
+<?php use Phalcon\Tag as Tag ?>
+<script type="text/javascript">
+	catalogSelectMain = [
+		$('<select>', {'class':'form-catalog__select-main-begin'}),
+		$('<select>', {'class':'form-catalog__select-main-middle'}),
+		$('<select>', {'class':'form-catalog__select-main-bottom'})
+	];
+  
+  regionsSelectMain = [
+		$('<select>', {'class':'form-region__select-main'}),
+		$('<select>', {'class':'form-region__select-main-bottom','name':'RegionMain[rid]'})
+	];
+<?php if(!( $this->session->get('region_id') &&  $this->session->get('catalog_id'))): ?>	
+$(function(){
+  loadRegions();
+		/*$([15,25]).each(
+			function(k,v){
+				$(regionsSelectMain[k]).val(v).trigger('change');
+				//$(regionsSelectMain[k]).children('option[value!='+v+']').attr('disabled','disabled');
+			}
+		);*/
+  loadCategory();
+  	});
+  <?php else: ?>
+$(function(){
+  loadRegions();
+  $([<?php echo $this->session->get('region'); ?>, <?php echo $this->session->get('region_id'); ?>]).each(
+			function(k,v){
+				$(regionsSelectMain[k]).val(v).trigger('change');
+				//$(regionsSelectMain[k]).children('option[value!='+v+']').attr('disabled','disabled');
+			});
+  loadCategory();
+  $([<?php echo $this->session->get('catalog'); ?>, <?php echo $this->session->get('catalog_middle'); ?>, <?php echo
+$this->session->get('catalog_id'); ?>]).each(
+			function(k,v){
+				$(catalogSelectMain[k]).val(v).trigger('change');
+				//$(regionsSelectMain[k]).children('option[value!='+v+']').attr('disabled','disabled');
+			});
+	});
+<?php endif; ?>
+	
+function makeRequest(url, data, callback){
+		$.ajax({
+			url:url,
+			type:'GET',
+			async:false,
+			data:data,
+			success:callback,
+			dataType:'JSON'
+		});
+	}
+	
+function loadCategory(){
+		makeRequest('<?php echo $this->url->get('ajax/getcatalog') ?>', {id:1}, function(data){
+		  $(catalogSelectMain[0]).append($('<option>',{'value':'select','html':'Выберите каталог:'}));
+			$(data).each(function(index){
+				$(catalogSelectMain[0]).append($('<option>',{'value':this.id,'html':this.name}));
+        //console.log(index);
+			});
+			$(catalogSelectMain[0]).change(function(){
+				makeRequest('<?php echo $this->url->get('ajax/getcatalog') ?>', {id:$(catalogSelectMain[0]).val()}, function(data){
+					$(catalogSelectMain[1]).empty();
+          $(catalogSelectMain[1]).append($('<option>',{'value':'select','html':'Выберите подкаталог:'}));
+					$(data).each(function(){
+						$(catalogSelectMain[1]).append($('<option>',{'value':this.id,'html':this.name}));
+					});
+					$(catalogSelectMain[1]).change(function(){
+						makeRequest('<?php echo $this->url->get('ajax/getcatalog') ?>', {id:$(catalogSelectMain[1]).val()}, function(data){
+							$(catalogSelectMain[2]).empty();
+							if(data.length > 0)
+							{
+								$(catalogSelectMain[2]).append($('<option>',{'value':'select','html':'Выберите категорию:'})).show();
+								$(data).each(function(){
+									$(catalogSelectMain[2]).append($('<option>',{'value':this.id,'html':this.name}));
+								});
+								$(catalogSelectMain[2]).change(function(){
+									$('.main-cid-val').val($(catalogSelectMain[2]).val());
+								  
+								}).trigger('change');
+							} else {
+								$('.main-cid-val').val($(catalogSelectMain[1]).val());
+								$(catalogSelectMain[2]).hide();
+							} 
+						});
+					})//.show();//trigger('change');
+				});
+			}).trigger('change');
+		});
+		$(catalogSelectMain).each(function(){
+			$('.catalog-change-main-cid-container').append(this);
+		});
+	}
+  
+function loadRegions(){
+		makeRequest('<?php echo $this->url->get('ajax/getregions') ?>', {id:1}, function(data){
+  		$(regionsSelectMain[0]).append($('<option>',{'value':'select','html':'Выберите край:'}));
+			$(data).each(function(){
+				$(regionsSelectMain[0]).append($('<option>',{'value':this.id,'html':this.name}));
+			});
+			$(regionsSelectMain[0]).change(function(){
+				makeRequest('<?php echo $this->url->get('ajax/getregions') ?>', {id:$(regionsSelectMain[0]).val()}, function(data){
+					$(regionsSelectMain[1]).empty();
+          $(regionsSelectMain[1]).append($('<option>',{'value':'select','html':'Выберите регион:'}));
+					$(data).each(function(){
+						$(regionsSelectMain[1]).append($('<option>',{'value':this.id,'html':this.name}));
+					});
+				});
+			}).trigger('change');
+		});
+		$(regionsSelectMain).each(function(){
+			$('.region-change-main-rid-container').append(this);
+		});
+	}
+	
+</script>
+<div id="main-search-form">
+<form>
+<div id="region-change-main">
+	<div class="inner-region-change-main">
+		<label class="inner-region-label">Выберите регион</label>
+	</div>
+	<div class="region-change-main-rid-container">
+  </div>
+</div>
+
+<div id="catalog-change-main">
+	<div class="inner-catalog-change-main">
+		<label class="inner-catalog-label">Выберите раздел</label>
+	</div>
+	<div class="catalog-change-main-cid-container">
+  <input type="hidden" name="CatalogMain[rid]" class="main-cid-val" value="0" />
+	</div>
+</div>
+<p><a class="btn btn-primary btn-large btn-success" href="#" onclick=goSearch('<?php echo $this->url->get('ajax/getcontent') ?>')>Поиск</a></p>
+</form>
+</div>
+

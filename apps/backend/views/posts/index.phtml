@@ -1,0 +1,102 @@
+<?php use Phalcon\Tag as Tag ?>
+<ul class="pager">
+    <li class="pull-right">
+        <?php echo Tag::linkTo(array(
+  "backend/posts/create",
+  "Добавить пост",
+  "class" => "btn btn-primary")) ?>
+    </li>
+</ul>
+<?php echo $this->flashSession->output() ?>
+<?php $this->partial('partials/top_search_posts'); ?>
+<?php // echo var_dump($searchparams); ?>
+
+<table class="table table-bordered table-striped" align="center">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Заглавие</th>
+            <th>Автор</th>
+            <th>Время создания</th>
+            <th>Время обновления</th>
+        </tr>
+    </thead>
+    <tbody>
+    
+    <?php if (isset($page->items))
+{
+  foreach ($page->items as $model)
+  { ?>
+        <tr>
+            <td><?php echo $model->id ?></td>
+            <td><?php echo $model->title ?></td>
+            <td><?php echo $model->author->name ?></td>
+            <td><?php echo $model->create_time ?></td>
+            <td><?php echo $model->update_time ?></td>
+            <td width="5%"><?php echo Tag::linkTo(array(
+      "backend/posts/show/" . $model->id,
+      '<i class="icon-eye-open"></i>',
+      "class" => "btn",
+      "title"=>"Смотреть")) ?></td>
+            <td width="5%"><?php echo Tag::linkTo(array(
+      "backend/posts/edit/" . $model->id,
+      '<i class="icon-pencil"></i>',
+      "class" => "btn",
+      "title"=>"Исправить")) ?></td>
+            <td width="5%">
+            <?php echo Tag::linkTo(array(
+      "backend/posts/delete/" . $model->id,
+      '<i class="icon-remove"></i>',
+      "class" => "btn",
+      "id"=>"remove-button",
+      "title"=>"Удалить",
+      "data-toggle" => "modal",
+      //"data-target" => "#myModal"
+      )) ?>
+            </td>
+        </tr>
+    <?php }
+} ?>
+    </tbody>
+    <tbody>
+        <tr>
+            <td colspan="7" align="right">
+                <div class="btn-posts">
+                    <?php echo Tag::linkTo(array(
+  "backend/posts/index",
+  '<i class="icon-fast-backward"></i> Первая',
+  "class" => "btn")) ?>
+                    <?php echo Tag::linkTo(array(
+  "backend/posts/index?page=" . $page->before,
+  '<i class="icon-step-backward"></i> Предыдущая',
+  "class" => "btn ")) ?>
+                    <?php echo Tag::linkTo(array(
+  "backend/posts/index?page=" . $page->next,
+  '<i class="icon-step-forward"></i> Следующая',
+  "class" => "btn")) ?>
+                    <?php echo Tag::linkTo(array(
+  "backend/posts/index?page=" . $page->last,
+  '<i class="icon-fast-forward"></i> Последняя',
+  "class" => "btn")) ?>
+                    <span class="help-inline"><?php echo $page->current, "/", $page->total_pages ?></span>
+                </div>
+            </td>
+        </tr>
+    <tbody>
+</table>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">Удаление объявления</h3>
+</div>
+<div class="modal-body">
+<p>Объявление будет полностью удалено и в дальнейшем не доступно.</p>
+</div>
+<div class="modal-footer">
+<button class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>
+<?php echo Tag::linkTo(array(
+  "#",
+  "Удалить",
+  "class" => "btn btn-primary")) ?>
+</div>
+</div>

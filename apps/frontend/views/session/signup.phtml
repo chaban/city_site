@@ -1,0 +1,120 @@
+<?php
+echo $this->getContent()
+?>
+
+<?php echo var_dump($pass); ?>
+
+<div align="center">
+	<form class="form-inline" method="post">
+
+		<div align="left">
+			<h2>Регистрация на сайте</h2>
+		</div>
+
+		<table class="signup">
+			<tr>
+				<td align="right"><?php
+echo $form->label("name")
+?></td>
+				<td>
+          <?php
+echo $form->render("name")
+?>
+					<?php
+foreach ($form->getMessagesFor('name') as $message)
+{
+	echo $message, '<br>';
+}
+?>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><?php
+echo $form->label("email")
+?></td>
+				<td>
+          <?php
+echo $form->render("email")
+?>
+					<?php
+foreach ($form->getMessagesFor('email') as $message)
+{
+	echo $message, '<br>';
+}
+?>
+				</td>
+			</tr>
+      <?php /* 
+			<tr>
+				<td align="right"><?php
+echo $form->label("password")
+?></td>
+				<td>
+          <?php
+echo $form->render("password")
+?>
+					<?php
+foreach ($form->getMessagesFor('password') as $message)
+{
+	echo $message, '<br>';
+}
+?>
+				</td>
+			</tr>
+      	<tr>
+				<td align="right"><?php
+echo $form->label("confirmPassword")
+?></td>
+				<td>
+          <?php
+echo $form->render("confirmPassword")
+?>
+					<?php
+foreach ($form->getMessagesFor('confirmPassword') as $message)
+{
+	echo $message, '<br>';
+}
+?>
+				</td>
+			</tr>
+       */ ?>
+			<tr>
+				<td align="right"></td>
+				<td>
+          <?php
+echo $form->render("terms")
+?><?php
+echo $form->label("terms")
+?>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"></td>
+				<td><?php
+echo $form->render("Зарегистрироваться");
+?></td>
+			</tr>
+		</table>
+<p>
+						<?php
+foreach ($form->getMessagesFor('terms') as $message)
+{
+	echo $message, '<br>';
+}
+?>
+</p>
+		<?php
+echo $form->render("csrf", array("value" => $this->security->getToken()))
+?>
+					<?php
+foreach ($form->getMessagesFor('csrf') as $message)
+{
+	echo $message, '<br>';
+}
+?>
+
+		<hr />
+
+	</form>
+
+</div>

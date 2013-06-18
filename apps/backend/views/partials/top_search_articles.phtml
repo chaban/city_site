@@ -1,0 +1,61 @@
+<?php
+use Phalcon\Tag as Tag
+?>
+<div id="main-search-form">
+<div class="inline scaffold left">
+<?php
+echo Tag::form(array(
+	"backend/articles/index",
+	"autocomplete" => "off",
+	"class" => "form-inline"))
+?>
+
+    <h5>Публикации раздела статьи</h5>
+ 
+<div class="clearfix"></div>
+<?php
+echo Tag::textField(array(
+	"id",
+	"size" => 5,
+	"maxlength" => 10,
+	"class" => "input-mini left",
+	"placeholder" => "ID",
+	"type" => "number"))
+?>
+
+<?php
+echo Tag::textField(array(
+	"title",
+	"class" => "input-large",
+	"size" => 44,
+	"maxlength" => 70,
+	"placeholder" => "Заглавие",
+	"name" => "title",
+	))
+?>
+
+<?php echo Tag::select(
+    array(
+        "category_id",
+        "class" => "input-medium left",
+        \Models\ArticleCategories::find(),
+        "using" => array("id", "name"),
+        'useEmpty' => true,
+        'emptyText' => 'Категория',
+        'emptyValue' => ''
+    )
+); ?>
+  
+<?php echo Tag::selectStatic(array("status", "name" => "status", "class" => "input-medium left"), array(
+  "0" => "Опубликованно",
+  "1" => "В черновиках",
+  "2" => "В архиве")); ?>
+  
+    
+<?php
+echo Tag::submitButton(array("Поиск", "class" => "btn search"))
+?>
+</form>
+</div>
+</div>
+

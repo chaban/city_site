@@ -1,0 +1,30 @@
+<?php use Phalcon\Tag as Tag ?>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+    <?php echo Tag::linkTo(array('/index', 'Наш город', 'class'=>'brand')); ?>
+    <?php echo $this->elements->getMenu(); ?>
+  </div>
+</div>
+</div>
+
+<div class="container-fluid center clearfix">
+<div class="row-fluid center">
+<div class="left-block span4 center">
+<?php $this->partial('partials/left_block_news'); ?>
+</div>
+ <div class="main-content clearfix span7 center" role="main">
+    <?php echo $this->getContent() ?>
+ </div>
+ </div>
+    <hr />
+    <div class="clr-both"></div>
+    <footer>
+        <p>&copy; Company 2013</p>
+    </footer>
+</div>
